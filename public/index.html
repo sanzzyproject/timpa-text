@@ -4,207 +4,222 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Text Replacer | SANN404 FORUM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.1);
+            --bg-color: #f0f0f0;
+            --card-bg: #ffffff;
+            --main-accent: #fbbf24; /* Kuning Saweria */
+            --secondary-accent: #a855f7; /* Ungu */
+            --btn-download: #10b981; /* Hijau */
+            --border-color: #000000;
+            --shadow-offset: 5px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--main-accent);
+            background-image: radial-gradient(#000 1px, transparent 1px);
+            background-size: 20px 20px;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-image: radial-gradient(circle at top right, #1e293b 0%, transparent 40%),
-                              radial-gradient(circle at bottom left, #312e81 0%, transparent 40%);
+            padding: 20px;
+            color: #000;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
-            padding: 20px;
+            max-width: 480px;
         }
 
+        /* --- Neo-Brutalism Card --- */
         .card {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 16px;
+            border: 3px solid var(--border-color);
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--border-color);
             padding: 2rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            border-radius: 0; /* Tajam */
+            position: relative;
         }
 
         .header {
             text-align: center;
             margin-bottom: 2rem;
+            border-bottom: 3px solid #000;
+            padding-bottom: 1rem;
         }
 
         .header h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 1.8rem;
+            line-height: 1;
         }
 
-        .header p {
-            font-size: 0.875rem;
-            color: var(--text-muted);
+        .badge {
+            background: var(--secondary-accent);
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border: 2px solid #000;
+            display: inline-block;
+            margin-top: 5px;
+            box-shadow: 2px 2px 0px #000;
         }
 
+        /* --- Inputs --- */
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
+            font-weight: 700;
             margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.9rem;
         }
 
-        input[type="text"], 
-        input[type="file"] {
+        input[type="text"] {
             width: 100%;
             padding: 12px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 0.95rem;
-            transition: border-color 0.3s;
+            background: #fff;
+            border: 3px solid var(--border-color);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: bold;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
         }
 
         input[type="text"]:focus {
-            outline: none;
-            border-color: var(--primary);
+            background: #fffbe6;
+            box-shadow: 4px 4px 0px var(--border-color);
+            transform: translate(-2px, -2px);
         }
 
-        input[type="file"]::file-selector-button {
-            margin-right: 10px;
-            background: var(--primary);
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .preview-container {
-            width: 100%;
-            height: 200px;
-            border: 2px dashed var(--border);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            margin-bottom: 1rem;
-            background: rgba(0,0,0,0.2);
+        /* --- File Upload Styling --- */
+        .file-upload-wrapper {
             position: relative;
-        }
-
-        .preview-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            display: none;
-        }
-
-        .preview-text {
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
+            border: 3px dashed var(--border-color);
+            background: #fafafa;
+            padding: 20px;
+            text-align: center;
             cursor: pointer;
-            transition: background 0.3s, transform 0.1s;
+            transition: 0.2s;
         }
 
-        button:hover {
-            background: var(--primary-hover);
+        .file-upload-wrapper:hover {
+            background: #fff;
+            border-style: solid;
         }
 
-        button:active {
-            transform: scale(0.98);
+        input[type="file"] {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            cursor: pointer;
         }
 
-        button:disabled {
-            background: var(--text-muted);
+        .preview-box {
+            margin-top: 10px;
+            display: none;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px #000;
+        }
+        
+        .preview-box img {
+            width: 100%;
+            display: block;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid var(--border-color);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.1s;
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--border-color);
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-accent);
+            color: #fff;
+        }
+
+        .btn-success {
+            background-color: var(--btn-download);
+            color: #fff;
+        }
+
+        .btn:active {
+            transform: translate(var(--shadow-offset), var(--shadow-offset));
+            box-shadow: 0px 0px 0px var(--border-color);
+        }
+
+        .btn:disabled {
+            background: #9ca3af;
             cursor: not-allowed;
-            opacity: 0.7;
+            transform: none;
+            box-shadow: none;
+            border-color: #6b7280;
         }
 
+        /* --- Result Area --- */
         .result-area {
+            display: none;
             margin-top: 2rem;
+            border-top: 3px solid #000;
+            padding-top: 1rem;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .loading-overlay {
             display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .result-area h3 {
-            margin-bottom: 1rem;
-            font-size: 1rem;
             text-align: center;
-        }
-
-        .loader {
-            display: none;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 8px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            padding: 20px;
+            font-weight: bold;
+            background: #000;
+            color: #fff;
+            margin-top: 10px;
+            border: 3px solid #000;
         }
 
         .footer {
             margin-top: 2rem;
             text-align: center;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            opacity: 0.5;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            background: #000;
+            color: #fff;
+            padding: 5px;
+            transform: rotate(-1deg);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
@@ -213,70 +228,86 @@
     <div class="container">
         <div class="card">
             <div class="header">
-                <h1>AI Text Replacer</h1>
-                <p>Ganti teks pada gambar secara otomatis</p>
+                <h1>AI Text Fixer</h1>
+                <div class="badge">SANN404 FORUM</div>
             </div>
 
             <div class="form-group">
-                <label>Upload Gambar</label>
-                <div class="preview-container" id="previewContainer">
-                    <span class="preview-text">Preview Gambar</span>
+                <label>1. Upload Screenshot</label>
+                <div class="file-upload-wrapper">
+                    <span id="fileName">Klik atau Tarik File Di Sini</span>
+                    <input type="file" id="imageInput" accept="image/*">
+                </div>
+                <div class="preview-box" id="previewContainer">
                     <img id="imagePreview" alt="Preview">
                 </div>
-                <input type="file" id="imageInput" accept="image/*">
             </div>
 
             <div class="form-group">
-                <label>Teks Asli (Yang ingin dihapus)</label>
-                <input type="text" id="originalText" placeholder="Contoh: nanobanana.js">
+                <label>2. Teks Dihapus</label>
+                <input type="text" id="originalText" placeholder="Contoh: SannAI">
             </div>
 
             <div class="form-group">
-                <label>Teks Baru (Pengganti)</label>
-                <input type="text" id="replaceText" placeholder="Contoh: SANN404 FORUM">
+                <label>3. Teks Baru</label>
+                <input type="text" id="replaceText" placeholder="Contoh: TeksBaru">
             </div>
 
-            <button id="submitBtn" onclick="processImage()">
-                <span>Proses Gambar</span>
+            <button class="btn btn-primary" id="submitBtn" onclick="processImage()">
+                ⚡ PROSES SEKARANG
             </button>
 
-            <div class="loader" id="loader">
-                <div class="spinner"></div> Sedang memproses AI...
+            <div class="loading-overlay" id="loader">
+                SEDANG MEMASAK GAMBAR... <br> (SABAR JANGAN DI CLOSE)
             </div>
 
             <div class="result-area" id="resultArea">
-                <h3>Hasil:</h3>
-                <div class="preview-container">
+                <label style="text-align: center; margin-bottom:10px;">✨ HASIL ✨</label>
+                <div class="preview-box" style="display: block; margin-bottom: 15px;">
                     <img id="resultImage" alt="Hasil AI">
                 </div>
-                <button onclick="downloadResult()" style="background: #10b981; margin-top: 10px;">Download Hasil</button>
+                <button class="btn btn-success" id="downloadBtn" onclick="downloadResult()">
+                    ⬇️ DOWNLOAD OTOMATIS
+                </button>
             </div>
         </div>
 
         <div class="footer">
-            Developer: SANN404 FORUM
+            DEVELOPED BY SANN404 FORUM
         </div>
     </div>
 
     <script>
         const imageInput = document.getElementById('imageInput');
         const imagePreview = document.getElementById('imagePreview');
-        const previewText = document.querySelector('.preview-text');
-        
-        // Handle Preview Image
+        const previewContainer = document.getElementById('previewContainer');
+        const fileNameSpan = document.getElementById('fileName');
+
+        // Handle Preview
         imageInput.addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
+                fileNameSpan.textContent = file.name;
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                    previewText.style.display = 'none';
+                    previewContainer.style.display = 'block';
                 }
                 reader.readAsDataURL(file);
             }
         });
 
+        // Convert File to Base64
+        function toBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // Process Image
         async function processImage() {
             const file = imageInput.files[0];
             const orig = document.getElementById('originalText').value;
@@ -286,21 +317,17 @@
             const resultArea = document.getElementById('resultArea');
 
             if (!file || !orig || !rep) {
-                alert('Mohon lengkapi semua data!');
+                alert('⚠️ WOI! ISI SEMUA DATA DULU!');
                 return;
             }
 
-            // UI Loading State
             btn.disabled = true;
-            btn.innerHTML = 'Memproses...';
+            btn.style.opacity = '0.5';
             loader.style.display = 'block';
             resultArea.style.display = 'none';
 
             try {
-                // Convert file to Base64
                 const base64 = await toBase64(file);
-
-                // Call Backend API
                 const response = await fetch('/api/process', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -317,38 +344,59 @@
                 if (response.ok) {
                     document.getElementById('resultImage').src = data.result_image;
                     resultArea.style.display = 'block';
+                    // Scroll ke bawah otomatis
+                    resultArea.scrollIntoView({ behavior: "smooth" });
                 } else {
-                    alert('Error: ' + (data.error || 'Gagal memproses gambar'));
+                    alert('❌ GAGAL: ' + (data.error || 'Server ngambek'));
                 }
 
             } catch (error) {
-                console.error(error);
-                alert('Terjadi kesalahan koneksi.');
+                alert('❌ ERROR KONEKSI: Cek internet lu bang');
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = 'Proses Gambar';
+                btn.style.opacity = '1';
                 loader.style.display = 'none';
             }
         }
 
-        function toBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        function downloadResult() {
+        // --- NEW: DIRECT DOWNLOAD FUNCTION ---
+        async function downloadResult() {
             const imgUrl = document.getElementById('resultImage').src;
-            const a = document.createElement('a');
-            a.href = imgUrl;
-            a.download = 'SANN404_Result.png';
-            a.target = '_blank';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            const btn = document.getElementById('downloadBtn');
+            
+            btn.innerHTML = '⏳ SEDANG MENDOWNLOAD...';
+            btn.disabled = true;
+
+            try {
+                // Fetch gambar sebagai BLOB (Binary Large Object)
+                const response = await fetch(imgUrl);
+                const blob = await response.blob();
+                
+                // Buat URL lokal sementara
+                const localUrl = window.URL.createObjectURL(blob);
+                
+                // Buat elemen <a> tersembunyi untuk trigger download
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = localUrl;
+                a.download = 'SANN404_RESULT_' + Date.now() + '.png'; // Nama file otomatis
+                
+                document.body.appendChild(a);
+                a.click(); // Klik otomatis
+                
+                // Bersihkan memori
+                window.URL.revokeObjectURL(localUrl);
+                document.body.removeChild(a);
+
+            } catch (e) {
+                console.error(e);
+                // Fallback jika fetch gagal (misal kena CORS), buka tab baru
+                alert('Gagal download otomatis, membuka di tab baru...');
+                window.open(imgUrl, '_blank');
+            } finally {
+                btn.innerHTML = '⬇️ DOWNLOAD OTOMATIS';
+                btn.disabled = false;
+            }
         }
     </script>
 </body>
