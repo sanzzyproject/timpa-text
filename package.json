@@ -1,0 +1,13 @@
+{
+  "name": "ai-text-replacer",
+  "version": "1.0.0",
+  "description": "AI Text Replace by SANN404 FORUM",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "form-data": "^4.0.0"
+  }
+}
