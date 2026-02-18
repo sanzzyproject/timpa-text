@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Text Replacer | SANN404 FORUM</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(circle at top right, #1e293b 0%, transparent 40%),
+                              radial-gradient(circle at bottom left, #312e81 0%, transparent 40%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        input[type="text"], 
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        input[type="file"]::file-selector-button {
+            margin-right: 10px;
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .preview-container {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            background: rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .preview-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+
+        .preview-text {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.1s;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .result-area {
+            margin-top: 2rem;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-area h3 {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>AI Text Replacer</h1>
+                <p>Ganti teks pada gambar secara otomatis</p>
+            </div>
+
+            <div class="form-group">
+                <label>Upload Gambar</label>
+                <div class="preview-container" id="previewContainer">
+                    <span class="preview-text">Preview Gambar</span>
+                    <img id="imagePreview" alt="Preview">
+                </div>
+                <input type="file" id="imageInput" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label>Teks Asli (Yang ingin dihapus)</label>
+                <input type="text" id="originalText" placeholder="Contoh: nanobanana.js">
+            </div>
+
+            <div class="form-group">
+                <label>Teks Baru (Pengganti)</label>
+                <input type="text" id="replaceText" placeholder="Contoh: SANN404 FORUM">
+            </div>
+
+            <button id="submitBtn" onclick="processImage()">
+                <span>Proses Gambar</span>
+            </button>
+
+            <div class="loader" id="loader">
+                <div class="spinner"></div> Sedang memproses AI...
+            </div>
+
+            <div class="result-area" id="resultArea">
+                <h3>Hasil:</h3>
+                <div class="preview-container">
+                    <img id="resultImage" alt="Hasil AI">
+                </div>
+                <button onclick="downloadResult()" style="background: #10b981; margin-top: 10px;">Download Hasil</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            Developer: SANN404 FORUM
+        </div>
+    </div>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewText = document.querySelector('.preview-text');
+        
+        // Handle Preview Image
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    previewText.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        async function processImage() {
+            const file = imageInput.files[0];
+            const orig = document.getElementById('originalText').value;
+            const rep = document.getElementById('replaceText').value;
+            const btn = document.getElementById('submitBtn');
+            const loader = document.getElementById('loader');
+            const resultArea = document.getElementById('resultArea');
+
+            if (!file || !orig || !rep) {
+                alert('Mohon lengkapi semua data!');
+                return;
+            }
+
+            // UI Loading State
+            btn.disabled = true;
+            btn.innerHTML = 'Memproses...';
+            loader.style.display = 'block';
+            resultArea.style.display = 'none';
+
+            try {
+                // Convert file to Base64
+                const base64 = await toBase64(file);
+
+                // Call Backend API
+                const response = await fetch('/api/process', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        imageBase64: base64,
+                        filename: file.name,
+                        originalText: orig,
+                        replaceText: rep
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('resultImage').src = data.result_image;
+                    resultArea.style.display = 'block';
+                } else {
+                    alert('Error: ' + (data.error || 'Gagal memproses gambar'));
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert('Terjadi kesalahan koneksi.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Proses Gambar';
+                loader.style.display = 'none';
+            }
+        }
+
+        function toBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        function downloadResult() {
+            const imgUrl = document.getElementById('resultImage').src;
+            const a = document.createElement('a');
+            a.href = imgUrl;
+            a.download = 'SANN404_Result.png';
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>
