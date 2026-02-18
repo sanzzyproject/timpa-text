@@ -3,188 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI Text Replacer Mobile Pro | SANN404</title>
+    <title>AI Text Replacer Brutal | SANN404</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Archivo+Black&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Archivo+Black&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     
     <style>
+        /* --- NEO-BRUTALISM VARIABLES --- */
         :root {
-            /* Palette Cyberpunk V2 */
-            --bg-body: #4c1d95; /* Ungu Gelap */
-            --bg-pattern: #2e1065;
-            --card-bg: #ffffff;
+            --bg-outer: #1a1a1a; /* Background Gelap Luar */
+            --bg-cream: #f4f1e8; /* Warna Cream Dominan */
+            --text-black: #000000;
             
-            --primary: #fbbf24; /* Kuning Cyber (Saweria vibe) */
-            --primary-dark: #d97706;
+            --border-thick: 4px solid var(--text-black); /* Border Sangat Tebal */
+            --shadow-hard: 8px 8px 0px var(--text-black); /* Bayangan Keras Tanpa Blur */
             
-            --accent-purple: #8b5cf6;
-            --accent-green: #10b981;
-            
-            --text-main: #1e293b;
-            --border-black: 3px solid #000;
-            --shadow-hard: 5px 5px 0px #000;
+            /* Aksen Opsional (Misal untuk hover/sukses) */
+            --accent-pink: #ff90e8; 
+            --accent-yellow: #ffc900;
         }
 
         * {
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent; /* Hilangkan highlight biru di Android */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             margin: 0;
-            padding: 0;
+            padding: 20px;
             font-family: 'Space Grotesk', sans-serif;
-            background-color: var(--bg-body);
-            background-image: 
-                radial-gradient(var(--bg-pattern) 15%, transparent 16%),
-                radial-gradient(var(--bg-pattern) 15%, transparent 16%);
+            background-color: var(--bg-outer);
+            /* Pattern titik-titik halus di background luar */
+            background-image: radial-gradient(var(--text-black) 1px, transparent 1px);
             background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-            color: var(--text-main);
+            color: var(--text-black);
             min-height: 100vh;
             display: flex;
             justify-content: center;
+            align-items: flex-start;
         }
 
-        /* --- WRAPPER UTAMA --- */
+        /* --- CONTAINER UTAMA (Warna Cream) --- */
         .app-container {
             width: 100%;
-            max-width: 1200px;
-            padding: 20px;
+            max-width: 1100px;
+            /* Container utama sendiri adalah kotak brutalist besar */
+            background: var(--bg-cream);
+            border: var(--border-thick);
+            box-shadow: var(--shadow-hard);
+            padding: 30px;
+            
             display: grid;
-            grid-template-columns: 300px 1fr 300px; /* Desktop: 3 Kolom */
-            gap: 25px;
+            grid-template-columns: 250px 1fr 250px;
+            gap: 30px;
             align-items: start;
         }
 
-        /* --- RESPONSIVE MOBILE (PENTING) --- */
+        /* --- RESPONSIVE MOBILE --- */
         @media (max-width: 1024px) {
+            body { padding: 10px; }
             .app-container {
-                grid-template-columns: 1fr; /* Jadi 1 Kolom */
-                padding: 15px;
-                gap: 20px;
+                grid-template-columns: 1fr; /* 1 Kolom di HP */
+                padding: 20px;
+                gap: 25px;
+                box-shadow: 5px 5px 0px var(--text-black); /* Shadow sedikit lebih kecil di HP */
             }
-
-            /* Ubah urutan tampilan di HP */
-            .main-content { order: 1; } /* Form paling atas */
-            .sidebar-right { order: 2; } /* Komunitas kedua */
-            .sidebar-left { order: 3; } /* Tutorial paling bawah */
-            
-            h1 { font-size: 1.8rem !important; }
+            /* Urutan tampilan Mobile */
+            .main-content { order: 1; }
+            .sidebar-right { order: 2; }
+            .sidebar-left { order: 3; }
         }
 
-        /* --- UI COMPONENTS --- */
-        .neo-card {
-            background: var(--card-bg);
-            border: var(--border-black);
-            box-shadow: var(--shadow-hard);
+        /* --- KOMPONEN GAYA BRUTAL --- */
+        
+        /* Kelas utilitas untuk kotak brutalist */
+        .brutal-box {
+            background: var(--bg-cream);
+            border: var(--border-thick);
+            box-shadow: 5px 5px 0px var(--text-black);
             padding: 20px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px; /* Sedikit rounded biar modern */
+            border-radius: 0; /* KUNCI BRUTALISM: SUDUT TAJAM */
+            transition: all 0.1s ease-in-out;
+        }
+        
+        /* Efek hover untuk widget */
+        .sidebar-left .brutal-box:hover,
+        .sidebar-right .brutal-box:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0px var(--text-black);
+            background: #fff;
         }
 
-        /* --- HEADER BARU YANG LEBIH KEREN --- */
+        /* --- HEADER --- */
         .header-section {
-            background: #000;
-            color: #fff;
-            padding: 25px 20px;
             text-align: center;
-            border: var(--border-black);
-            box-shadow: var(--shadow-hard);
-            margin-bottom: 25px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Efek Garis-Garis Background Header */
-        .header-section::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255, 255, 255, 0.1) 10px,
-                rgba(255, 255, 255, 0.1) 20px
-            );
-            pointer-events: none;
+            margin-bottom: 30px;
+            border-bottom: var(--border-thick);
+            padding-bottom: 20px;
         }
 
         .header-title {
             font-family: 'Archivo Black', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             text-transform: uppercase;
             line-height: 1;
-            margin-bottom: 5px;
-            color: var(--primary);
-            text-shadow: 4px 4px 0px #fff; /* Shadow Teks */
-            position: relative;
-            z-index: 2;
+            margin-bottom: 10px;
+            /* Efek teks bergaris luar (outline) */
+            -webkit-text-stroke: 2px var(--text-black);
+            color: var(--bg-cream);
+            text-shadow: 3px 3px 0px var(--text-black);
         }
 
         .header-subtitle {
-            font-size: 0.9rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            background: #fff;
-            color: #000;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: var(--text-black);
+            color: var(--bg-cream);
             display: inline-block;
-            padding: 4px 12px;
-            transform: skew(-10deg); /* Miring dikit */
-            border: 2px solid var(--primary);
-            position: relative;
-            z-index: 2;
+            padding: 5px 15px;
+            font-family: 'Archivo Black', sans-serif;
         }
 
-        /* --- FORM ELEMENTS --- */
+        /* --- FORM INPUTS --- */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
         label {
             font-weight: 800;
+            text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-            color: #000;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 1rem;
+            font-family: 'Archivo Black', sans-serif;
         }
 
-        /* Input Optimization for Mobile */
+        /* Input Teks Brutal */
         input[type="text"] {
             width: 100%;
-            padding: 16px; /* Padding besar enak disentuh */
-            border: var(--border-black);
+            padding: 18px;
+            border: var(--border-thick);
+            background: var(--bg-cream);
             font-family: 'Space Grotesk', sans-serif;
-            font-weight: bold;
-            font-size: 16px; /* Mencegah zoom di iOS */
-            background: #f1f5f9;
-            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 0; /* Sudut Tajam */
             outline: none;
-            transition: 0.2s;
+            box-shadow: 4px 4px 0px var(--text-black);
+            transition: 0.1s;
         }
 
         input[type="text"]:focus {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--text-black);
             background: #fff;
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
         }
 
-        /* Upload Box */
+        /* Upload Box Brutal */
         .upload-area {
-            border: 3px dashed #cbd5e1;
-            background: #f8fafc;
+            border: 4px dashed var(--text-black);
+            background: #fff;
             padding: 30px 20px;
             text-align: center;
             cursor: pointer;
-            border-radius: 8px;
-            transition: 0.3s;
+            border-radius: 0;
+            transition: 0.2s;
             position: relative;
+            box-shadow: 4px 4px 0px var(--text-black);
         }
 
-        .upload-area:hover, .upload-area.active {
-            border-color: var(--accent-purple);
-            background: #eff6ff;
+        .upload-area:hover {
+            background: var(--accent-pink);
+            border-style: solid;
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--text-black);
         }
 
         .upload-area input {
@@ -192,122 +187,133 @@
             width: 100%; height: 100%;
             top: 0; left: 0;
             opacity: 0;
-            z-index: 10;
+            cursor: pointer;
         }
 
         .preview-img-container {
-            margin-top: 15px;
-            border: 3px solid #000;
+            margin-top: 20px;
+            border: var(--border-thick);
             display: none;
-            background: #000;
+            background: var(--text-black);
+            box-shadow: 5px 5px 0px var(--text-black);
         }
         .preview-img-container img {
             width: 100%;
             display: block;
+            /* Efek dither/pixelate agar lebih retro */
+            image-rendering: pixelated; 
         }
 
-        /* --- BUTTONS --- */
+        /* --- TOMBOL BRUTAL --- */
         .btn-main {
             width: 100%;
-            background: var(--accent-purple);
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 900;
+            background: var(--bg-cream);
+            color: var(--text-black);
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.2rem;
             text-transform: uppercase;
-            padding: 18px;
-            border: var(--border-black);
-            border-radius: 8px;
+            padding: 20px;
+            border: var(--border-thick);
+            border-radius: 0; /* Sudut Tajam */
             box-shadow: var(--shadow-hard);
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: transform 0.1s;
+            gap: 15px;
+            transition: all 0.1s;
+            position: relative;
+            top: 0; left: 0;
         }
 
+        /* Efek tekan tombol brutal: bergeser menutupi bayangan */
         .btn-main:active {
-            transform: translate(3px, 3px);
-            box-shadow: 2px 2px 0px #000;
+            top: 8px;
+            left: 8px;
+            box-shadow: 0px 0px 0px var(--text-black);
+            background: var(--accent-yellow);
+        }
+        
+        .btn-main:hover {
+             background: #fff;
         }
 
+        /* Tombol WA */
         .btn-wa {
-            background: #25D366;
-            color: #fff;
+            background: #25D366; /* Warna WA tetap, tapi gaya brutal */
+            color: var(--text-black);
             text-decoration: none;
             display: block;
             text-align: center;
             padding: 15px;
-            font-weight: bold;
-            border: var(--border-black);
-            box-shadow: 4px 4px 0px #000;
-            border-radius: 8px;
+            font-weight: 800;
+            font-family: 'Archivo Black', sans-serif;
+            border: var(--border-thick);
+            box-shadow: 5px 5px 0px var(--text-black);
+            border-radius: 0;
+            transition: 0.1s;
+        }
+        .btn-wa:active {
+            transform: translate(5px, 5px);
+            box-shadow: 0px 0px 0px var(--text-black);
         }
 
-        /* --- SIDEBAR WIDGETS --- */
+        /* --- WIDGETS & LAINNYA --- */
         .widget-title {
-            font-weight: 900;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            border-bottom: 4px solid var(--text-black);
             padding-bottom: 10px;
-            border-bottom: 3px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        .step-item {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            align-items: flex-start;
-        }
         .step-num {
-            background: #000;
-            color: #fff;
-            width: 25px;
-            height: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            border-radius: 4px;
-            flex-shrink: 0;
+            background: var(--text-black);
+            color: var(--bg-cream);
+            width: 35px; height: 35px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-family: 'Archivo Black';
+            border: 2px solid var(--text-black);
+            box-shadow: 3px 3px 0px var(--bg-cream); /* Reverse shadow */
+            margin-right: 15px;
+            font-size: 1.2rem;
         }
 
-        /* --- LOADING & RESULT --- */
         .loader-overlay {
             display: none;
-            background: #fffbe6;
-            border: var(--border-black);
+            background: var(--accent-yellow);
+            border: var(--border-thick);
+            box-shadow: var(--shadow-hard);
             padding: 20px;
             text-align: center;
-            margin-top: 20px;
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+            margin-top: 30px;
+            font-family: 'Archivo Black';
         }
 
         .result-panel {
             display: none;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 3px dashed #000;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 4px dashed var(--text-black);
         }
 
-        /* Footer Mobile */
         .footer-credit {
             text-align: center;
-            margin-top: 30px;
-            font-size: 0.8rem;
-            opacity: 0.7;
-            color: #fff;
+            margin-top: 40px;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            background: var(--text-black);
+            color: var(--bg-cream);
+            padding: 5px;
+            display: inline-block;
+            transform: rotate(-2deg); /* Miring sedikit */
         }
+        
+        /* Utility untuk teks tebal */
+        strong { font-family: 'Archivo Black', sans-serif; }
 
     </style>
 </head>
@@ -316,30 +322,30 @@
 <div class="app-container">
 
     <div class="sidebar-left">
-        <div class="neo-card">
+        <div class="brutal-box">
             <div class="widget-title">
-                <i class="ri-book-open-line"></i> CARA PAKAI
+                <i class="ri-book-mark-fill"></i> PANDUAN
             </div>
             
-            <div class="step-item">
+            <div style="display:flex; align-items:start; margin-bottom: 20px;">
                 <div class="step-num">1</div>
                 <div>
-                    <strong>Upload Screenshot</strong><br>
-                    <span style="font-size:0.85rem; color:#64748b;">Pilih gambar yang mau diedit teksnya.</span>
+                    <strong>UPLOAD FILE</strong><br>
+                    Pilih screenshot yang mau diedit.
                 </div>
             </div>
-            <div class="step-item">
+            <div style="display:flex; align-items:start; margin-bottom: 20px;">
                 <div class="step-num">2</div>
                 <div>
-                    <strong>Isi Teks Asli</strong><br>
-                    <span style="font-size:0.85rem; color:#64748b;">Ketik teks yang mau <b>DIHAPUS</b> (Harus persis).</span>
+                    <strong>TEKS ASLI</strong><br>
+                    Ketik teks yang mau <b>DIHAPUS</b> (Harus Sama Persis).
                 </div>
             </div>
-            <div class="step-item">
+            <div style="display:flex; align-items:start;">
                 <div class="step-num">3</div>
                 <div>
-                    <strong>Isi Teks Baru</strong><br>
-                    <span style="font-size:0.85rem; color:#64748b;">Ketik teks penggantinya.</span>
+                    <strong>TEKS BARU</strong><br>
+                    Ketik teks penggantinya.
                 </div>
             </div>
         </div>
@@ -348,19 +354,16 @@
     <div class="main-content">
         
         <div class="header-section">
-            <div class="header-title">AI REPLACER</div>
-            <div class="header-subtitle">MODIFY TEXT IN SECONDS</div>
-            <div style="margin-top: 15px; font-size: 0.9rem; color: #ddd;">
-                Powered by <strong style="color: var(--primary);">SANN404 FORUM</strong>
-            </div>
+            <div class="header-title">AI TEXT REPLACER</div>
+            <div class="header-subtitle">TOOLS EDIT TEKS GAMBAR INSTAN</div>
         </div>
 
-        <div class="neo-card">
+        <div>
             <div class="form-group">
-                <label><i class="ri-image-add-fill"></i> UPLOAD GAMBAR</label>
+                <label><i class="ri-folder-upload-fill"></i> PILIH FILE GAMBAR</label>
                 <div class="upload-area" id="uploadBox">
-                    <i class="ri-upload-cloud-2-line" style="font-size: 2.5rem; color: #94a3b8;"></i>
-                    <p style="margin: 10px 0 0; font-weight: bold;">Ketuk untuk Upload</p>
+                    <i class="ri-upload-2-fill" style="font-size: 3rem;"></i>
+                    <p style="margin: 15px 0 0; font-weight: 800; font-size: 1.1rem;">KLIK / TARIK FILE KESINI</p>
                     <input type="file" id="imageInput" accept="image/*">
                 </div>
                 <div class="preview-img-container" id="previewContainer">
@@ -368,59 +371,67 @@
                 </div>
             </div>
 
-            <div style="margin-top: 20px;">
-                <label><i class="ri-eraser-fill"></i> TEKS ASLI (YANG DIHAPUS)</label>
+            <div class="form-group">
+                <label><i class="ri-delete-back-2-fill"></i> TEKS ASLI (YANG DIHAPUS)</label>
                 <input type="text" id="originalText" placeholder="Contoh: SannAI">
             </div>
 
-            <div style="margin-top: 20px;">
-                <label><i class="ri-pencil-fill"></i> TEKS PENGGANTI</label>
-                <input type="text" id="replaceText" placeholder="Contoh: Nama Kamu">
+            <div class="form-group">
+                <label><i class="ri-text-direction-r"></i> TEKS BARU (PENGGANTI)</label>
+                <input type="text" id="replaceText" placeholder="Contoh: TeksBaru">
             </div>
 
             <button class="btn-main" id="processBtn" onclick="processImage()">
-                <i class="ri-magic-line"></i> PROSES GAMBAR
+                <i class="ri-cpu-line" style="font-size: 1.5rem;"></i>
+                PROSES GAMBAR SEKARANG
             </button>
 
             <div class="loader-overlay" id="loader">
-                <h3 style="margin-bottom: 5px;">SEDANG MEMASAK...</h3>
-                <p>Jangan tutup halaman ini.</p>
+                <h2 style="margin:0; text-transform: uppercase;">SEDANG MEMPROSES...</h2>
+                <p style="font-weight: bold;">JANGAN TUTUP HALAMAN INI!</p>
             </div>
 
             <div class="result-panel" id="resultArea">
-                <label style="background:var(--accent-green); color:#fff; padding:5px 10px; border:2px solid #000; margin-bottom:10px; display:inline-block;">SUKSES! HASILNYA:</label>
+                <div style="font-family: 'Archivo Black'; font-size: 1.5rem; margin-bottom: 15px; text-align: center;">
+                    <i class="ri-check-double-fill"></i> HASILNYA:
+                </div>
                 
-                <img id="resultImage" style="width:100%; border:3px solid #000; margin-bottom:15px;" src="" alt="Hasil">
+                <img id="resultImage" style="width:100%; border:var(--border-thick); box-shadow: 5px 5px 0px var(--text-black); margin-bottom:20px; image-rendering: pixelated;" src="" alt="Hasil">
                 
-                <button class="btn-main" style="background: var(--accent-green);" id="downloadBtn" onclick="downloadResult()">
-                    <i class="ri-download-fill"></i> DOWNLOAD OTOMATIS
+                <button class="btn-main" style="background: var(--accent-pink);" id="downloadBtn" onclick="downloadResult()">
+                    <i class="ri-download-2-fill" style="font-size: 1.5rem;"></i> 
+                    DOWNLOAD HASIL
                 </button>
             </div>
         </div>
 
-        <div class="footer-credit">
-            &copy; 2026 SANN404 FORUM. All Rights Reserved.
+        <div style="text-align: center;">
+             <div class="footer-credit">
+                DEVELOPED BY SANN404 FORUM
+            </div>
         </div>
     </div>
 
     <div class="sidebar-right">
         
-        <div class="neo-card" style="margin-bottom: 20px; text-align: center;">
-            <div class="widget-title" style="justify-content: center;">DEVELOPER</div>
-            <div style="width: 70px; height: 70px; background: #000; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;">
-                <i class="ri-robot-2-fill" style="color: #fff; font-size: 2rem;"></i>
+        <div class="brutal-box" style="margin-bottom: 30px; text-align: center;">
+            <div class="widget-title" style="border:none; margin-bottom:10px;">DEV STATUS</div>
+            <div style="width: 80px; height: 80px; background: var(--text-black); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; border: 3px solid var(--bg-cream); box-shadow: 4px 4px 0px var(--text-black);">
+                <i class="ri-terminal-box-fill" style="color: var(--bg-cream); font-size: 3rem;"></i>
             </div>
-            <h3 style="margin-bottom: 5px;">SANN404</h3>
-            <p style="font-size: 0.8rem; color: #64748b;">AI Tools Creator</p>
+            <h2 style="margin: 0; font-family: 'Archivo Black';">SANN404</h2>
+            <div style="background: #25D366; color: #000; font-weight: bold; display: inline-block; padding: 5px 10px; margin-top: 10px; border: 2px solid #000; box-shadow: 3px 3px 0px #000;">
+                ONLINE
+            </div>
         </div>
 
-        <div class="neo-card" style="background: #dcfce7;">
-            <div class="widget-title"><i class="ri-whatsapp-fill"></i> KOMUNITAS</div>
-            <p style="font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4;">
-                Join saluran WhatsApp SANN404 untuk update script & tools AI gratis lainnya.
+        <div class="brutal-box" style="background: #fff;">
+            <div class="widget-title"><i class="ri-community-fill"></i> KOMUNITAS</div>
+            <p style="font-weight: bold; margin-bottom: 20px;">
+                Join saluran WhatsApp untuk update tools AI lainnya.
             </p>
             <a href="https://whatsapp.com/channel/0029Vb6ukqnHQbS4mKP0j80L" target="_blank" class="btn-wa">
-                GABUNG SEKARANG
+                <i class="ri-whatsapp-fill"></i> GABUNG SALURAN
             </a>
         </div>
 
@@ -442,7 +453,8 @@
             reader.onload = function(e) {
                 previewImg.src = e.target.result;
                 previewContainer.style.display = 'block';
-                uploadBox.style.display = 'none'; // Sembunyikan box upload biar rapi
+                // Optional: Hide upload box after selection for cleaner look
+                // uploadBox.style.display = 'none'; 
             }
             reader.readAsDataURL(file);
         }
@@ -468,13 +480,16 @@
         const resultArea = document.getElementById('resultArea');
 
         if (!file || !orig || !rep) {
-            alert('⚠️ Harap isi Gambar, Teks Asli, dan Teks Baru!');
+            alert('⚠️ LENGKAPI SEMUA DATA DULU BOSKU!');
             return;
         }
 
         btn.disabled = true;
-        btn.innerHTML = 'MEMPROSES...';
-        btn.style.opacity = '0.7';
+        btn.innerHTML = 'LAGI DIPROSES...';
+        btn.style.background = '#ccc';
+        btn.style.boxShadow = 'none';
+        btn.style.top = '8px'; btn.style.left = '8px'; // Efek tertekan
+
         loader.style.display = 'block';
         resultArea.style.display = 'none';
 
@@ -497,8 +512,7 @@
                 document.getElementById('resultImage').src = data.result_image;
                 resultArea.style.display = 'block';
                 resultArea.scrollIntoView({ behavior: 'smooth' });
-                // Kembalikan tampilan upload
-                uploadBox.style.display = 'block';
+                
                 previewContainer.style.display = 'none';
                 imageInput.value = ''; // Reset input
             } else {
@@ -509,8 +523,10 @@
             alert('❌ KONEKSI ERROR. Cek internet kamu.');
         } finally {
             btn.disabled = false;
-            btn.innerHTML = '<i class="ri-magic-line"></i> PROSES GAMBAR';
-            btn.style.opacity = '1';
+            btn.innerHTML = '<i class="ri-cpu-line" style="font-size: 1.5rem;"></i> PROSES GAMBAR SEKARANG';
+            btn.style.background = 'var(--bg-cream)';
+            btn.style.boxShadow = 'var(--shadow-hard)';
+            btn.style.top = '0'; btn.style.left = '0'; // Reset posisi tombol
             loader.style.display = 'none';
         }
     }
@@ -521,8 +537,11 @@
         const btn = document.getElementById('downloadBtn');
         const originalHtml = btn.innerHTML;
         
-        btn.innerHTML = 'DOWNLOADING...';
+        btn.innerHTML = 'SEDANG DOWNLOAD...';
         btn.disabled = true;
+        btn.style.background = '#ccc';
+        btn.style.boxShadow = 'none';
+        btn.style.top = '8px'; btn.style.left = '8px';
 
         try {
             const response = await fetch(imgUrl);
@@ -532,7 +551,7 @@
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = localUrl;
-            a.download = 'SANN404_' + Date.now() + '.png';
+            a.download = 'SANN404_BRUTAL_' + Date.now() + '.png';
             
             document.body.appendChild(a);
             a.click();
@@ -545,6 +564,9 @@
         } finally {
             btn.innerHTML = originalHtml;
             btn.disabled = false;
+            btn.style.background = 'var(--accent-pink)';
+            btn.style.boxShadow = 'var(--shadow-hard)';
+            btn.style.top = '0'; btn.style.left = '0';
         }
     }
 </script>
