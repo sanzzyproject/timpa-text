@@ -2,516 +2,552 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Text Replacer Pro | SANN404</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI Text Replacer Mobile Pro | SANN404</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Archivo+Black&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     
     <style>
         :root {
-            /* Warna Baru: Deep Purple Cyberpunk */
-            --bg-main: #0f172a; 
-            --accent-primary: #8b5cf6; /* Ungu Terang */
-            --accent-secondary: #a78bfa; 
-            --accent-success: #10b981; /* Hijau Matrix */
-            --accent-warning: #f59e0b; /* Orange */
-            --text-light: #f1f5f9;
-            --text-dark: #0f172a;
-            --border-thick: 3px solid #000;
-            --shadow-hard: 6px 6px 0px #000;
+            /* Palette Cyberpunk V2 */
+            --bg-body: #4c1d95; /* Ungu Gelap */
+            --bg-pattern: #2e1065;
+            --card-bg: #ffffff;
+            
+            --primary: #fbbf24; /* Kuning Cyber (Saweria vibe) */
+            --primary-dark: #d97706;
+            
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            
+            --text-main: #1e293b;
+            --border-black: 3px solid #000;
+            --shadow-hard: 5px 5px 0px #000;
         }
 
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            -webkit-tap-highlight-color: transparent; /* Hilangkan highlight biru di Android */
         }
 
         body {
+            margin: 0;
+            padding: 0;
             font-family: 'Space Grotesk', sans-serif;
-            background-color: var(--accent-secondary);
-            /* Grid Pattern agar tidak polos */
+            background-color: var(--bg-body);
             background-image: 
-                linear-gradient(#000 2px, transparent 2px),
-                linear-gradient(90deg, #000 2px, transparent 2px);
-            background-size: 40px 40px;
-            background-position: center;
-            color: var(--text-dark);
+                radial-gradient(var(--bg-pattern) 15%, transparent 16%),
+                radial-gradient(var(--bg-pattern) 15%, transparent 16%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            color: var(--text-main);
             min-height: 100vh;
-            padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align top agar scrollable enak */
         }
 
-        /* --- LAYOUT UTAMA (Grid 3 Kolom) --- */
-        .main-wrapper {
-            display: grid;
-            grid-template-columns: 300px 1fr 300px;
-            gap: 20px;
+        /* --- WRAPPER UTAMA --- */
+        .app-container {
             width: 100%;
             max-width: 1200px;
-            margin-top: 20px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr 300px; /* Desktop: 3 Kolom */
+            gap: 25px;
+            align-items: start;
         }
 
-        /* Responsive Layout: Mobile jadi 1 kolom */
+        /* --- RESPONSIVE MOBILE (PENTING) --- */
         @media (max-width: 1024px) {
-            .main-wrapper {
-                grid-template-columns: 1fr;
+            .app-container {
+                grid-template-columns: 1fr; /* Jadi 1 Kolom */
+                padding: 15px;
+                gap: 20px;
             }
-            .sidebar-left, .sidebar-right {
-                order: 2; /* Taruh widget di bawah form di HP */
-            }
-            .main-content {
-                order: 1;
-            }
+
+            /* Ubah urutan tampilan di HP */
+            .main-content { order: 1; } /* Form paling atas */
+            .sidebar-right { order: 2; } /* Komunitas kedua */
+            .sidebar-left { order: 3; } /* Tutorial paling bawah */
+            
+            h1 { font-size: 1.8rem !important; }
         }
 
-        /* --- COMMON CARD STYLE (Neo-Brutalism) --- */
+        /* --- UI COMPONENTS --- */
         .neo-card {
-            background: #fff;
-            border: var(--border-thick);
+            background: var(--card-bg);
+            border: var(--border-black);
             box-shadow: var(--shadow-hard);
             padding: 20px;
-            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px; /* Sedikit rounded biar modern */
         }
 
-        .neo-card:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 8px 8px 0px #000;
+        /* --- HEADER BARU YANG LEBIH KEREN --- */
+        .header-section {
+            background: #000;
+            color: #fff;
+            padding: 25px 20px;
+            text-align: center;
+            border: var(--border-black);
+            box-shadow: var(--shadow-hard);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
         }
 
-        h2 {
-            font-weight: 900;
+        /* Efek Garis-Garis Background Header */
+        .header-section::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 20px
+            );
+            pointer-events: none;
+        }
+
+        .header-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2.5rem;
             text-transform: uppercase;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            border-bottom: 3px solid #000;
-            padding-bottom: 10px;
+            line-height: 1;
+            margin-bottom: 5px;
+            color: var(--primary);
+            text-shadow: 4px 4px 0px #fff; /* Shadow Teks */
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-subtitle {
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: #fff;
+            color: #000;
+            display: inline-block;
+            padding: 4px 12px;
+            transform: skew(-10deg); /* Miring dikit */
+            border: 2px solid var(--primary);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- FORM ELEMENTS --- */
+        label {
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        /* --- SIDEBAR LEFT: Tutorial --- */
-        .tutorial-item {
-            margin-bottom: 15px;
-            border: 2px solid #000;
-            padding: 10px;
-            background: #f8fafc;
-        }
-        .step-badge {
-            background: var(--accent-primary);
-            color: #fff;
-            font-weight: bold;
-            padding: 2px 8px;
-            border: 2px solid #000;
-            display: inline-block;
-            margin-bottom: 5px;
-        }
-
-        /* --- CENTER: Main Form --- */
-        .header-title {
-            text-align: center;
-            background: var(--bg-main);
-            color: var(--text-light);
-            padding: 15px;
-            border: var(--border-thick);
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-hard);
-        }
-        .header-title h1 {
-            font-size: 2rem;
-            font-weight: 900;
-            letter-spacing: -1px;
-        }
-        .marquee-container {
-            overflow: hidden;
-            white-space: nowrap;
-            background: var(--accent-warning);
-            border: var(--border-thick);
-            margin-bottom: 20px;
-            font-weight: bold;
-            padding: 5px 0;
-        }
-        .marquee-text {
-            display: inline-block;
-            animation: marquee 10s linear infinite;
-        }
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* Inputs */
-        .form-group { margin-bottom: 20px; }
-        label {
-            display: block;
-            font-weight: 800;
+            gap: 8px;
             margin-bottom: 8px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            color: #000;
         }
+
+        /* Input Optimization for Mobile */
         input[type="text"] {
             width: 100%;
-            padding: 15px;
+            padding: 16px; /* Padding besar enak disentuh */
+            border: var(--border-black);
             font-family: 'Space Grotesk', sans-serif;
             font-weight: bold;
-            border: var(--border-thick);
-            background: #e2e8f0;
+            font-size: 16px; /* Mencegah zoom di iOS */
+            background: #f1f5f9;
+            border-radius: 6px;
             outline: none;
-            font-size: 1rem;
+            transition: 0.2s;
         }
+
         input[type="text"]:focus {
             background: #fff;
-            box-shadow: 4px 4px 0px var(--accent-primary);
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
         }
 
-        /* File Upload */
-        .file-box {
-            position: relative;
-            height: 150px;
-            border: 3px dashed #000;
-            background: #f1f5f9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        /* Upload Box */
+        .upload-area {
+            border: 3px dashed #cbd5e1;
+            background: #f8fafc;
+            padding: 30px 20px;
+            text-align: center;
             cursor: pointer;
+            border-radius: 8px;
             transition: 0.3s;
-            overflow: hidden;
+            position: relative;
         }
-        .file-box:hover { background: #fff; }
-        .file-box input {
+
+        .upload-area:hover, .upload-area.active {
+            border-color: var(--accent-purple);
+            background: #eff6ff;
+        }
+
+        .upload-area input {
             position: absolute;
             width: 100%; height: 100%;
+            top: 0; left: 0;
             opacity: 0;
-            cursor: pointer;
-        }
-        .file-box i { font-size: 3rem; color: var(--accent-primary); }
-        .preview-img {
-            max-height: 100%;
-            max-width: 100%;
-            display: none;
-            position: absolute;
-            z-index: 5;
+            z-index: 10;
         }
 
-        /* Buttons */
-        .btn {
+        .preview-img-container {
+            margin-top: 15px;
+            border: 3px solid #000;
+            display: none;
+            background: #000;
+        }
+        .preview-img-container img {
             width: 100%;
-            padding: 18px;
-            font-family: 'Space Grotesk', bold;
+            display: block;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-main {
+            width: 100%;
+            background: var(--accent-purple);
+            color: #fff;
+            font-size: 1.1rem;
             font-weight: 900;
             text-transform: uppercase;
-            font-size: 1.2rem;
-            border: var(--border-thick);
-            cursor: pointer;
-            position: relative;
-            background: var(--accent-primary);
-            color: #fff;
+            padding: 18px;
+            border: var(--border-black);
+            border-radius: 8px;
             box-shadow: var(--shadow-hard);
-            transition: all 0.1s;
-        }
-        .btn:active {
-            transform: translate(4px, 4px);
-            box-shadow: 2px 2px 0px #000;
-        }
-        .btn-wa {
-            background: #25D366; /* WA Green */
+            cursor: pointer;
             margin-top: 10px;
-            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            transition: transform 0.1s;
+        }
+
+        .btn-main:active {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        .btn-wa {
+            background: #25D366;
+            color: #fff;
             text-decoration: none;
-        }
-
-        /* --- SIDEBAR RIGHT: Info & Status --- */
-        .status-badge {
-            background: var(--accent-success);
-            padding: 5px;
+            display: block;
             text-align: center;
-            border: 2px solid #000;
+            padding: 15px;
             font-weight: bold;
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-        }
-        .dev-profile {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .dev-profile img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px solid #000;
-            background: #ddd;
+            border: var(--border-black);
+            box-shadow: 4px 4px 0px #000;
+            border-radius: 8px;
         }
 
-        /* --- RESULT & LOADING --- */
-        .loading-screen {
-            display: none;
-            background: #000;
-            color: #0f0;
-            font-family: monospace;
-            padding: 20px;
-            border: var(--border-thick);
-            margin-top: 20px;
-        }
-        .result-box {
-            display: none;
-            margin-top: 20px;
-            border-top: 3px solid #000;
-            padding-top: 20px;
-        }
-        .result-box img {
-            width: 100%;
-            border: var(--border-thick);
+        /* --- SIDEBAR WIDGETS --- */
+        .widget-title {
+            font-weight: 900;
+            font-size: 1.2rem;
             margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        .step-num {
+            background: #000;
+            color: #fff;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        /* --- LOADING & RESULT --- */
+        .loader-overlay {
+            display: none;
+            background: #fffbe6;
+            border: var(--border-black);
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .result-panel {
+            display: none;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 3px dashed #000;
+        }
+
+        /* Footer Mobile */
+        .footer-credit {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            color: #fff;
         }
 
     </style>
 </head>
 <body>
 
-    <div class="main-wrapper">
+<div class="app-container">
+
+    <div class="sidebar-left">
+        <div class="neo-card">
+            <div class="widget-title">
+                <i class="ri-book-open-line"></i> CARA PAKAI
+            </div>
+            
+            <div class="step-item">
+                <div class="step-num">1</div>
+                <div>
+                    <strong>Upload Screenshot</strong><br>
+                    <span style="font-size:0.85rem; color:#64748b;">Pilih gambar yang mau diedit teksnya.</span>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">2</div>
+                <div>
+                    <strong>Isi Teks Asli</strong><br>
+                    <span style="font-size:0.85rem; color:#64748b;">Ketik teks yang mau <b>DIHAPUS</b> (Harus persis).</span>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">3</div>
+                <div>
+                    <strong>Isi Teks Baru</strong><br>
+                    <span style="font-size:0.85rem; color:#64748b;">Ketik teks penggantinya.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
         
-        <div class="sidebar-left">
-            <div class="neo-card">
-                <h2><i class="ri-book-read-line"></i> PANDUAN</h2>
-                
-                <div class="tutorial-item">
-                    <span class="step-badge">LANGKAH 1</span>
-                    <p>Upload screenshot atau gambar yang ada teksnya.</p>
-                </div>
-                <div class="tutorial-item">
-                    <span class="step-badge">LANGKAH 2</span>
-                    <p>Isi "Teks Asli" dengan tulisan yang mau kamu HAPUS dari gambar.</p>
-                </div>
-                <div class="tutorial-item">
-                    <span class="step-badge">LANGKAH 3</span>
-                    <p>Isi "Teks Baru" dengan tulisan pengganti yang kamu inginkan.</p>
-                </div>
-                <div class="tutorial-item">
-                    <span class="step-badge">TIPS</span>
-                    <p>Pastikan teks asli diketik persis (Case Sensitive) agar AI mendeteksi dengan akurat.</p>
-                </div>
+        <div class="header-section">
+            <div class="header-title">AI REPLACER</div>
+            <div class="header-subtitle">MODIFY TEXT IN SECONDS</div>
+            <div style="margin-top: 15px; font-size: 0.9rem; color: #ddd;">
+                Powered by <strong style="color: var(--primary);">SANN404 FORUM</strong>
             </div>
         </div>
 
-        <div class="main-content">
-            
-            <div class="header-title">
-                <h1>AI TEXT REPLACER</h1>
-                <p>MODIFY IMAGE TEXT IN SECONDS</p>
-            </div>
-
-            <div class="marquee-container">
-                <div class="marquee-text">
-                    ⚡ POWERED BY SANN404 FORUM ⚡ GRATIS TANPA LOGIN ⚡ EDIT TEKS GAMBAR OTOMATIS ⚡ JANGAN LUPA JOIN CHANNEL WHATSAPP ⚡
+        <div class="neo-card">
+            <div class="form-group">
+                <label><i class="ri-image-add-fill"></i> UPLOAD GAMBAR</label>
+                <div class="upload-area" id="uploadBox">
+                    <i class="ri-upload-cloud-2-line" style="font-size: 2.5rem; color: #94a3b8;"></i>
+                    <p style="margin: 10px 0 0; font-weight: bold;">Ketuk untuk Upload</p>
+                    <input type="file" id="imageInput" accept="image/*">
+                </div>
+                <div class="preview-img-container" id="previewContainer">
+                    <img id="previewImg" src="" alt="Preview">
                 </div>
             </div>
 
-            <div class="neo-card">
-                <div class="form-group">
-                    <label><i class="ri-upload-cloud-2-fill"></i> UPLOAD IMAGE</label>
-                    <div class="file-box" id="dropArea">
-                        <i class="ri-image-add-line"></i>
-                        <p style="margin-top: 10px; font-weight: bold;">KLIK / DRAG FILE KESINI</p>
-                        <input type="file" id="imageInput" accept="image/*">
-                        <img id="previewImg" class="preview-img" alt="Preview">
-                    </div>
-                </div>
+            <div style="margin-top: 20px;">
+                <label><i class="ri-eraser-fill"></i> TEKS ASLI (YANG DIHAPUS)</label>
+                <input type="text" id="originalText" placeholder="Contoh: SannAI">
+            </div>
 
-                <div class="form-group">
-                    <label><i class="ri-delete-bin-2-fill"></i> TEKS YANG DIHAPUS</label>
-                    <input type="text" id="originalText" placeholder="Contoh: SannAI">
-                </div>
+            <div style="margin-top: 20px;">
+                <label><i class="ri-pencil-fill"></i> TEKS PENGGANTI</label>
+                <input type="text" id="replaceText" placeholder="Contoh: Nama Kamu">
+            </div>
 
-                <div class="form-group">
-                    <label><i class="ri-text"></i> TEKS PENGGANTI</label>
-                    <input type="text" id="replaceText" placeholder="Contoh: Nama Kamu">
-                </div>
+            <button class="btn-main" id="processBtn" onclick="processImage()">
+                <i class="ri-magic-line"></i> PROSES GAMBAR
+            </button>
 
-                <button class="btn" id="submitBtn" onclick="processImage()">
-                    <i class="ri-magic-line"></i> JALANKAN AI
+            <div class="loader-overlay" id="loader">
+                <h3 style="margin-bottom: 5px;">SEDANG MEMASAK...</h3>
+                <p>Jangan tutup halaman ini.</p>
+            </div>
+
+            <div class="result-panel" id="resultArea">
+                <label style="background:var(--accent-green); color:#fff; padding:5px 10px; border:2px solid #000; margin-bottom:10px; display:inline-block;">SUKSES! HASILNYA:</label>
+                
+                <img id="resultImage" style="width:100%; border:3px solid #000; margin-bottom:15px;" src="" alt="Hasil">
+                
+                <button class="btn-main" style="background: var(--accent-green);" id="downloadBtn" onclick="downloadResult()">
+                    <i class="ri-download-fill"></i> DOWNLOAD OTOMATIS
                 </button>
-
-                <div class="loading-screen" id="loader">
-                    > SYSTEM_INIT... OK<br>
-                    > UPLOADING_IMAGE... OK<br>
-                    > AI_PROCESSING... <span style="animation: blink 1s infinite">_</span>
-                    <br><br>
-                    [MOHON TUNGGU, SEDANG MERACIK GAMBAR...]
-                </div>
-
-                <div class="result-box" id="resultArea">
-                    <label style="background: #000; color: #fff; padding: 5px; font-weight: bold;">HASIL RENDER:</label>
-                    <img id="resultImage" src="" alt="Hasil">
-                    
-                    <button class="btn" style="background: var(--accent-success);" id="downloadBtn" onclick="downloadResult()">
-                        <i class="ri-download-2-fill"></i> DOWNLOAD HASIL
-                    </button>
-                </div>
             </div>
         </div>
 
-        <div class="sidebar-right">
-            
-            <div class="neo-card" style="margin-bottom: 20px;">
-                <h2><i class="ri-user-star-fill"></i> DEVELOPER</h2>
-                <div class="dev-profile">
-                    <div style="width: 80px; height: 80px; background: #000; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem;">
-                        <i class="ri-robot-fill"></i>
-                    </div>
-                    <h3>SANN404</h3>
-                    <p style="font-size: 0.8rem; color: #555;">Fullstack AI Enthusiast</p>
-                </div>
-                <div class="status-badge">🟢 ONLINE: SYSTEM READY</div>
-                <div class="status-badge" style="background: #fde047;">🟡 VERCEL DEPLOYED</div>
-            </div>
+        <div class="footer-credit">
+            &copy; 2026 SANN404 FORUM. All Rights Reserved.
+        </div>
+    </div>
 
-            <div class="neo-card">
-                <h2><i class="ri-whatsapp-fill"></i> COMMUNITY</h2>
-                <p style="font-size: 0.9rem; margin-bottom: 15px;">Dapatkan update script terbaru, tutorial, dan diskusi bareng member lain.</p>
-                
-                <a href="https://whatsapp.com/channel/0029Vb6ukqnHQbS4mKP0j80L" target="_blank" class="btn btn-wa">
-                    <i class="ri-whatsapp-line"></i> JOIN SALURAN
-                </a>
-                
-                <p style="margin-top: 10px; font-size: 0.7rem; text-align: center; opacity: 0.7;">
-                    *Gratis selamanya, no spam.
-                </p>
+    <div class="sidebar-right">
+        
+        <div class="neo-card" style="margin-bottom: 20px; text-align: center;">
+            <div class="widget-title" style="justify-content: center;">DEVELOPER</div>
+            <div style="width: 70px; height: 70px; background: #000; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;">
+                <i class="ri-robot-2-fill" style="color: #fff; font-size: 2rem;"></i>
             </div>
+            <h3 style="margin-bottom: 5px;">SANN404</h3>
+            <p style="font-size: 0.8rem; color: #64748b;">AI Tools Creator</p>
+        </div>
 
+        <div class="neo-card" style="background: #dcfce7;">
+            <div class="widget-title"><i class="ri-whatsapp-fill"></i> KOMUNITAS</div>
+            <p style="font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4;">
+                Join saluran WhatsApp SANN404 untuk update script & tools AI gratis lainnya.
+            </p>
+            <a href="https://whatsapp.com/channel/0029Vb6ukqnHQbS4mKP0j80L" target="_blank" class="btn-wa">
+                GABUNG SEKARANG
+            </a>
         </div>
 
     </div>
 
-    <script>
-        const imageInput = document.getElementById('imageInput');
-        const previewImg = document.getElementById('previewImg');
-        const dropArea = document.getElementById('dropArea');
+</div>
 
-        // Preview Image Logic
-        imageInput.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImg.src = e.target.result;
-                    previewImg.style.display = 'block';
-                    dropArea.style.background = '#fff';
-                }
-                reader.readAsDataURL(file);
+<script>
+    const imageInput = document.getElementById('imageInput');
+    const previewImg = document.getElementById('previewImg');
+    const previewContainer = document.getElementById('previewContainer');
+    const uploadBox = document.getElementById('uploadBox');
+
+    // Preview
+    imageInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewContainer.style.display = 'block';
+                uploadBox.style.display = 'none'; // Sembunyikan box upload biar rapi
             }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Helper Base64
+    function toBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
         });
+    }
 
-        // Convert Base64 Helper
-        function toBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
+    // Process Image
+    async function processImage() {
+        const file = imageInput.files[0];
+        const orig = document.getElementById('originalText').value;
+        const rep = document.getElementById('replaceText').value;
+        const btn = document.getElementById('processBtn');
+        const loader = document.getElementById('loader');
+        const resultArea = document.getElementById('resultArea');
+
+        if (!file || !orig || !rep) {
+            alert('⚠️ Harap isi Gambar, Teks Asli, dan Teks Baru!');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = 'MEMPROSES...';
+        btn.style.opacity = '0.7';
+        loader.style.display = 'block';
+        resultArea.style.display = 'none';
+
+        try {
+            const base64 = await toBase64(file);
+            const response = await fetch('/api/process', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    imageBase64: base64,
+                    filename: file.name,
+                    originalText: orig,
+                    replaceText: rep
+                })
             });
-        }
 
-        // Main Process Function
-        async function processImage() {
-            const file = imageInput.files[0];
-            const orig = document.getElementById('originalText').value;
-            const rep = document.getElementById('replaceText').value;
-            const btn = document.getElementById('submitBtn');
-            const loader = document.getElementById('loader');
-            const resultArea = document.getElementById('resultArea');
+            const data = await response.json();
 
-            // Validasi
-            if (!file || !orig || !rep) {
-                alert('⚠️ EITS! Gambar, Teks Asli, dan Teks Baru harus diisi semua!');
-                return;
+            if (response.ok) {
+                document.getElementById('resultImage').src = data.result_image;
+                resultArea.style.display = 'block';
+                resultArea.scrollIntoView({ behavior: 'smooth' });
+                // Kembalikan tampilan upload
+                uploadBox.style.display = 'block';
+                previewContainer.style.display = 'none';
+                imageInput.value = ''; // Reset input
+            } else {
+                alert('❌ GAGAL: ' + (data.error || 'Server Error'));
             }
 
-            // UI State: Loading
-            btn.disabled = true;
-            btn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> MEMPROSES...';
-            btn.style.opacity = '0.7';
-            loader.style.display = 'block';
-            resultArea.style.display = 'none';
-
-            try {
-                const base64 = await toBase64(file);
-
-                // Call Backend (Tidak diubah logikanya)
-                const response = await fetch('/api/process', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        imageBase64: base64,
-                        filename: file.name,
-                        originalText: orig,
-                        replaceText: rep
-                    })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    // Success
-                    document.getElementById('resultImage').src = data.result_image;
-                    resultArea.style.display = 'block';
-                    resultArea.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    // Error from API
-                    alert('❌ GAGAL: ' + (data.error || 'Server error unknown'));
-                }
-
-            } catch (error) {
-                console.error(error);
-                alert('❌ KONEKSI ERROR: Cek internet atau coba lagi nanti.');
-            } finally {
-                // Reset UI
-                btn.disabled = false;
-                btn.innerHTML = '<i class="ri-magic-line"></i> JALANKAN AI';
-                btn.style.opacity = '1';
-                loader.style.display = 'none';
-            }
+        } catch (error) {
+            alert('❌ KONEKSI ERROR. Cek internet kamu.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="ri-magic-line"></i> PROSES GAMBAR';
+            btn.style.opacity = '1';
+            loader.style.display = 'none';
         }
+    }
 
-        // Download Function (Blob Method - Auto Download)
-        async function downloadResult() {
-            const imgUrl = document.getElementById('resultImage').src;
-            const btn = document.getElementById('downloadBtn');
-            const originalText = btn.innerHTML;
+    // Auto Download
+    async function downloadResult() {
+        const imgUrl = document.getElementById('resultImage').src;
+        const btn = document.getElementById('downloadBtn');
+        const originalHtml = btn.innerHTML;
+        
+        btn.innerHTML = 'DOWNLOADING...';
+        btn.disabled = true;
+
+        try {
+            const response = await fetch(imgUrl);
+            const blob = await response.blob();
+            const localUrl = window.URL.createObjectURL(blob);
             
-            btn.innerHTML = '⏳ DOWNLOADING...';
-            btn.disabled = true;
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = localUrl;
+            a.download = 'SANN404_' + Date.now() + '.png';
+            
+            document.body.appendChild(a);
+            a.click();
+            
+            window.URL.revokeObjectURL(localUrl);
+            document.body.removeChild(a);
 
-            try {
-                const response = await fetch(imgUrl);
-                const blob = await response.blob();
-                const localUrl = window.URL.createObjectURL(blob);
-                
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = localUrl;
-                a.download = 'SANN404_EDIT_' + Date.now() + '.png';
-                
-                document.body.appendChild(a);
-                a.click();
-                
-                window.URL.revokeObjectURL(localUrl);
-                document.body.removeChild(a);
-
-            } catch (e) {
-                console.error("Download fail:", e);
-                window.open(imgUrl, '_blank');
-            } finally {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
+        } catch (e) {
+            window.open(imgUrl, '_blank');
+        } finally {
+            btn.innerHTML = originalHtml;
+            btn.disabled = false;
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
